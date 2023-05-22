@@ -1,5 +1,3 @@
-import csv
-
 from s3_manager import get_s3_client
 from config import Config
 
