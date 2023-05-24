@@ -12,3 +12,15 @@ services:
       - ./logs:/app/airflow/logs
     environment:
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+
+  airflow-cli:
+    image: apache/airflow:2.1.4
+    command: bash -c "airflow users create --username airflow --firstname Mateusz --lastname Gula --role Admin --email mateuszgua@wp.eu --password airflow"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
+      - AIRFLOW__CORE__FERNET_KEY=myFernetKey
+      - AIRFLOW__WEBSERVER__SECRET_KEY=mySecretKey
+    volumes:
+      - ./dags:/app/airflow/dags
+      - ./logs:/app/airflow/logs

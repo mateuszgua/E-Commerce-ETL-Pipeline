@@ -11,3 +11,8 @@ class Config:
     AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
     AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
     AWS_BUCKET = os.getenv('AWS_BUCKET')
+
+    FILE_PATH_TEST = 'data/source/test.parquet'
+    FILE_PATH_TRAIN = 'data/source/train.parquet'
+    FILE_PATH_VAL = 'data/source/val.parquet'
+

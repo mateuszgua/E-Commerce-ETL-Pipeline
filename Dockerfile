@@ -12,6 +12,7 @@ COPY . .
 
 EXPOSE 8080
 
-ENV AIRFLOW_HOME=/app/airflow
+# ENV AIRFLOW_HOME=/app/airflow
+ENV AIRFLOW_HOME=/airflow
 
 CMD airflow db init && airflow webserver --port 8080
