@@ -14,6 +14,7 @@
 
 ## General Information
 - This project was created because I wanted to learn...
+- Data source: [here](https://www.kaggle.com/datasets/dschettler8845/recsys-2020-ecommerce-dataset?select=val.parquet)
 
 
 ## Technologies Used
