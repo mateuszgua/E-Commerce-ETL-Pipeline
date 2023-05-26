@@ -38,29 +38,47 @@
 
 version: '3'
 services:
-  airflow:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  airflow-webserver:
+    image: apache/airflow:2.2.3
     ports:
       - 8080:8080
     volumes:
-      - ./code:/app
       - ./dags:/app/airflow/dags
       - ./logs:/app/airflow/logs
-      - ./airflow.db:/app/airflow/airflow.db
+      - ./plugins:/app/airflow/plugins
+      - ./config:/app/airflow/config
     environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////app/airflow/airflow.db
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__WEBSERVER__RBAC=True
+    command: webserver
+    depends_on:
+      - postgres
+    restart: unless-stopped
 
-  airflow-cli:
-    image: apache/airflow:2.1.4
-    command: bash -c "airflow users create --username airflow --firstname Mateusz --lastname Gula --role Admin --email mateuszgua@wp.eu --password airflow"
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
-      - AIRFLOW__CORE__FERNET_KEY=myFernetKey
-      - AIRFLOW__WEBSERVER__SECRET_KEY=mySecretKey
+  airflow-scheduler:
+    image: apache/airflow:2.2.3
+    restart: always
+    depends_on:
+      - postgres
     volumes:
       - ./dags:/app/airflow/dags
       - ./logs:/app/airflow/logs
+      - ./plugins:/app/airflow/plugins
+      - ./config:/app/airflow/config
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    command: scheduler --daemon
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
