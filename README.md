@@ -19,10 +19,16 @@
 
 ## Technologies Used
 - Python - version 3.10.6
+- PySpark - version 
+- Airflow - version 
 
 ## Features
 List the ready features here:
-- abc
+- Creating s3 bucket,
+- Connecting with s3 bucket,
+- Creating dataframe with PySpark,
+- Creating Docker container,
+- Creating Airflow dag
 
 ## Screenshots
 ![Example screenshot](/app/static/func-diagram.png)
