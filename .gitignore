@@ -243,5 +243,5 @@ fabric.properties
 
 # Ignore airflow dic
 code/*
-dags/*
+# dags/*
 logs/*

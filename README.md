@@ -19,10 +19,16 @@
 
 ## Technologies Used
 - Python - version 3.10.6
+- PySpark - version 
+- Airflow - version 
 
 ## Features
 List the ready features here:
-- abc
+- Creating s3 bucket,
+- Connecting with s3 bucket,
+- Creating dataframe with PySpark,
+- Creating Docker container,
+- Creating Airflow dag
 
 ## Screenshots
 ![Example screenshot](/app/static/func-diagram.png)
@@ -72,9 +78,30 @@ $ # Move into folder
 $ cd 
 $
 $ # Start app
-$ docker-compose up --build
-$ # ...
-$ # frontend_1  |  * Running on http://127.0.0.1:5000
+$ docker-compose up -d
+$
+$ # Initialize the Airflow metadata tables by running the following command
+$ docker-compose exec airflow-webserver airflow db init
+$
+$ # Access the shell of the Airflow web server container using the following command
+$ docker-compose exec airflow-webserver /bin/bash
+$
+$ # Create User
+$ airflow users create --username <username> --firstname <firstname> --lastname <lastname> --role Admin --email <email> --password <password>
+$
+$ # Exit the container's shell by typing 
+$ exit
+$
+$ # Restart the containers
+$ docker-compose down
+$ docker-compose up -d
+$
+$ # Airflow web interface
+$ # http://localhost:8080
+$
+$ # Check the Airflow logs
+$ docker-compose logs airflow-webserver
+$
 ```
 
 ##### Copy image from DockerHub
